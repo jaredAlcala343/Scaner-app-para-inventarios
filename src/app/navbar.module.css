@@ -1,0 +1,78 @@
+/* Contenedor principal de la barra de navegación */
+.navbar {
+  font-family: 'Times New Roman', Times, serif;
+  background-color: #ffffff; /* Fondo oscuro para un look profesional */
+  color: white; /* Texto blanco */
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+
+/* Estilo del logo */
+.navbar .navbarBrand {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-decoration: double;
+  color: #053160; 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 2rem; 
+}
+
+/* Contenedor del menú de navegación */
+.navbarNav {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* Espaciado entre los elementos del menú */
+}
+
+
+.navLink {
+  color: #053160;
+  font-size: 1rem;
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navLink:hover {
+  transform: scaleZ(4.1); /* Efecto sutil de elevación */
+}
+
+/* Botón de Cerrar Sesión */
+.btnLink {
+  color: #053160;
+  font-weight: 500;
+  border: none;
+  background: none;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.btnLink:hover {
+  color: #e4e122;
+  transform: translateY(-2px); /* Efecto de elevación */
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+  .navbarNav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #1f1f1f;
+    padding: 1rem;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
