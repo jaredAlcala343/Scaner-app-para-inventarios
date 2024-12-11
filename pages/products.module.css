@@ -84,6 +84,11 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Apilamos los elementos verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    text-align: center; /* Centra el texto */
 }
 
 .productInfo h2 {
@@ -93,12 +98,15 @@
 }
 
 .productImage {
-    max-width: 100%;
+    width: 80%; /* Asegura que la imagen ocupe el 80% del contenedor */
     height: auto;
-    margin: 10px 0;
+    margin: 10px 0; /* Añade espacio arriba y abajo */
     border: 1px solid #ddd;
     padding: 10px;
     background-color: #f9f9f9;
+    display: block; /* Hace que la imagen sea un bloque */
+    margin-left: auto; /* Centra la imagen horizontalmente */
+    margin-right: auto; /* Centra la imagen horizontalmente */
 }
 
 .error {

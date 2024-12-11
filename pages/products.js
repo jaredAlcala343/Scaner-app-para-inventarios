@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './Products.module.css';
-import Navbar from '@/app/navbar';
+import Navbar from './navbar';
 
 export default function Products() {
   const [productCode, setProductCode] = useState('');

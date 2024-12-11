@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Image from "next/image"; // Asegúrate de importar correctamente
-import { useRouter } from 'next/navigation'; // Importación correcta
+import Image from "next/image";
+import { useRouter } from 'next/navigation';
 import styles from './signin.module.css';
 
 export default function SignIn() {
@@ -22,6 +22,8 @@ export default function SignIn() {
     const data = await response.json();
 
     if (response.ok && data.redirectUrl) {
+      localStorage.setItem('username', username); // Guardar username en localStorage
+      localStorage.setItem('name', data.userData.name); // Guardar nombre del usuario en localStorage
       router.push(data.redirectUrl);
     } else {
       alert(data.message || 'Login failed');
@@ -53,13 +55,13 @@ export default function SignIn() {
         <button type="submit">Login</button>
       </form>
       <div className={styles.loginImage}>
-        {/* Asegúrate de usar Image de Next.js correctamente */}
-        <Image
-            src="/images/inicio.jpg"  // Ruta desde la carpeta public
-            alt="Login"
-            width={500}
-            height={300}
-        />
+      <Image
+        className={styles.loginImage}
+        src="/inicio.jpg"
+        alt="Imagen de inicio"
+        width={650}
+        height={400}
+      />
       </div>
     </div>
   );
