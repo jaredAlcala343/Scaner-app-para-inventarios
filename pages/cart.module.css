@@ -1,0 +1,92 @@
+.cart {
+    padding: 2rem;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f9f9f9;
+  }
+  
+  .title {
+    font-size: 2rem;
+    color: #053160;
+    margin-bottom: 1rem;
+  }
+  
+  .empty {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .itemImage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1rem;
+  }
+  
+  .itemDetails {
+    flex: 1;
+  }
+  
+  .itemName {
+    font-size: 1.2rem;
+    color: #053160;
+    margin: 0;
+  }
+  
+  .itemPrice {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .itemQuantity {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .itemQuantity input {
+    width: 60px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .removeItem {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .removeItem:hover {
+    background-color: #c0392b;
+  }
+  
+  .total {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: #053160;
+    text-align: right;
+  }
+  

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHomeLg, faShoppingCart, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import styles from './navbar.module.css';
 
 const Navbar = () => {
@@ -22,21 +24,35 @@ const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-        <span className={styles.navbarBrand}>
-          CUBYLAM & CHALET
-        </span>
+      <span className={styles.navbarBrand}>
+        CUBYLAM & CHALET
+      </span>
 
       <div className={styles.navbarNav}>
         {name ? (
           <>
             <span className={styles.navLink}>Hola, {name}</span>
-            <button onClick={handleLogout} className={styles.logoutButton}>
-              Cerrar sesión
-            </button>
+            <Link href="/products"> 
+            <p className={styles.cartLink}>
+            <FontAwesomeIcon icon={faHomeLg}/>
+            </p>
+          </Link>
+          <Link href="/cart">
+              <p className={styles.cartLink}>
+                <FontAwesomeIcon icon={faShoppingCart} />
+              </p>
+           </Link>
+
+           <Link href="/">
+              <p className={styles.cartLink}>
+                <FontAwesomeIcon icon={faSignOut} />
+              </p>
+           </Link>
+
           </>
         ) : (
           <Link href="/signin">
-            <button className={styles.loginButton}>
+            <button className={`${styles.button} ${styles.loginButton}`}>
               Iniciar sesión
             </button>
           </Link>

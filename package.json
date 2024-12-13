@@ -9,11 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.1",
+    "@fortawesome/free-solid-svg-icons": "^6.7.1",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "axios": "^1.7.9",
     "dotenv": "^16.4.7",
+    "jsbarcode": "^3.11.6",
+    "jspdf": "^2.5.2",
     "mssql": "^11.0.1",
     "next": "15.0.4",
     "next-auth": "^4.24.11",
+    "pdf-lib": "^1.17.1",
+    "pdfkit": "^0.15.1",
     "react": "^19.0.0",
+    "react-barcode": "^1.5.3",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {

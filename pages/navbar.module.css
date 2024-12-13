@@ -42,8 +42,8 @@
   transform: translateY(-2px); /* Efecto de elevación suave */
 }
 
-/* Botón de Cerrar Sesión */
-.logoutButton, .loginButton {
+/* Botón de Cerrar Sesión e Iniciar Sesión */
+.button {
   padding: 10px 20px;
   background-color: #ffffff;
   border: none;
@@ -68,6 +68,19 @@
   color: #f9f638; /* Rojo más oscuro al pasar el ratón */
 }
 
+/* Estilo del ícono del carrito */
+.cartLink {
+  font-size: 1rem;
+  color: #053160; /* Azul oscuro */
+  transition: color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.cartLink:hover {
+  color: #f9f638; /* Azul más oscuro al pasar el ratón */
+  transform: translateY(-2px); /* Efecto de elevación */
+}
+
 /* Para pantallas pequeñas */
 @media (max-width: 768px) {
   .navbarNav {
@@ -85,10 +98,10 @@
   }
   
   .navbar {
-    padding: 0.8rem 1.5rem;
+    padding: 0.1rem 1.3rem;
   }
 
   .navbarBrand {
-    font-size: 1.6rem; /* Tamaño de fuente reducido para móvil */
+    font-size: 1.3rem; /* Tamaño de fuente reducido para móvil */
   }
 }

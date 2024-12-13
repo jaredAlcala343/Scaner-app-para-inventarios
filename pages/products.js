@@ -25,6 +25,30 @@ export default function Products() {
     }
   };
 
+  const handleAddToCart = () => {
+    if (product) {
+      const storedCart = localStorage.getItem('cart');
+      const cartItems = storedCart ? JSON.parse(storedCart) : [];
+
+      const existingItemIndex = cartItems.findIndex((item) => item.code === product.codigoB);
+      if (existingItemIndex !== -1) {
+        cartItems[existingItemIndex].quantity += 1;
+      } else {
+        cartItems.push({
+          name: product.nombre,
+          description: product.descripcion,
+          price: product.precio,
+          quantity: 1,
+          code: product.codigoB,
+          image: product.imagenUrl,
+        });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+      alert('Producto agregado al carrito');
+    }
+  };
+
   return (
     <div>
       <Navbar/>
@@ -59,6 +83,7 @@ export default function Products() {
               <p><strong>Marca:</strong> {product.marca}</p>
               <p><strong>Código:</strong> {product.codigoB}</p>
             </div>
+            <button onClick={handleAddToCart} className={styles.addToCartButton}>Agregar al Carrito</button>
           </div>
         )}
       </div>
