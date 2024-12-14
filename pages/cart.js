@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';  // Asegúrate de tener instalada la librería axios
-import JsBarcode from 'jsbarcode'; 
-import { PDFDocument, rgb } from 'pdf-lib'; 
+import JsBarcode from 'jsbarcode'; // Asegúrate de importar jsbarcode
+import { PDFDocument, rgb } from 'pdf-lib'; // Asegúrate de que pdf-lib esté instalado
 import styles from './cart.module.css';
 import Navbar from './navbar';
 
@@ -28,70 +27,71 @@ const Cart = () => {
       return;
     }
 
-    // Datos a enviar al backend para actualizar el inventario
-    const productos = cartItems.map(item => ({
-      name: item.name,
-      quantity: item.quantity
-    }));
+    // Creamos el documento PDF
+    const doc = await PDFDocument.create();
+    const page = doc.addPage();
+    const { width, height } = page.getSize();
+    let y = height - 50; // Ajustamos el inicio de los textos
 
-    try {
-      // Enviar la solicitud POST al backend para actualizar el inventario
-      await axios.post('http://localhost:5000/api/finalizar-pedido', { productos });
+    // Título del comprobante
+    page.drawText('Comprobante de Pedido', { x: width / 2 - 85, y, size: 20, color: rgb(0, 0, 0) });
+    y -= 30;
 
-      // Crear el PDF
-      const doc = await PDFDocument.create();
-      const page = doc.addPage();
-      const { width, height } = page.getSize();
-      let y = height - 50;
+    // Detalles del pedido
+    page.drawText('Detalles del Pedido:', { x: 10, y, size: 14, color: rgb(0, 0, 0) });
+    y -= 20;
 
-      // Título del comprobante
-      page.drawText('Comprobante de Pedido', { x: width / 2 - 85, y, size: 20, color: rgb(0, 0, 0) });
-      y -= 30;
-
-      // Detalles del pedido
-      page.drawText('Detalles del Pedido:', { x: 10, y, size: 14, color: rgb(0, 0, 0) });
+    // Detalles de los productos en el carrito
+    cartItems.forEach((item, index) => {
+      page.drawText(`${index + 1}. ${item.name}`, { x: 10, y, size: 12 });
+      y -= 15;
+      page.drawText(`   Descripción: ${item.description || 'Sin descripción'}`, { x: 10, y, size: 12 });
+      y -= 15;
+      page.drawText(`   Precio: $${item.price?.toFixed(2) || '0.00'}`, { x: 10, y, size: 12 });
+      y -= 15;
+      page.drawText(`   Cantidad: ${item.quantity}`, { x: 10, y, size: 12 });
       y -= 20;
+    });
 
-      // Detalles de los productos en el carrito
-      cartItems.forEach((item, index) => {
-        page.drawText(`${index + 1}. ${item.name}`, { x: 10, y, size: 12 });
-        y -= 15;
-        page.drawText(`   Descripción: ${item.description || 'Sin descripción'}`, { x: 10, y, size: 12 });
-        y -= 15;
-        page.drawText(`   Precio: $${item.price?.toFixed(2) || '0.00'}`, { x: 10, y, size: 12 });
-        y -= 15;
-        page.drawText(`   Cantidad: ${item.quantity}`, { x: 10, y, size: 12 });
-        y -= 20;
-      });
+    // Total con IVA
+    const total = getTotal();
+    page.drawText(`Total (incluido IVA): $${total.toFixed(2)}`, { x: 10, y, size: 14, color: rgb(0, 0, 0) });
+    y -= 95;
 
-      // Total con IVA
-      const total = getTotal();
-      page.drawText(`Total (incluido IVA): $${total.toFixed(2)}`, { x: 10, y, size: 14, color: rgb(0, 0, 0) });
-      y -= 95;
+    // Generación del código de barras (usando JsBarcode)
+    const barcodeValue = cartItems.map(item => `${item.name.replace(/[^a-zA-Z0-9 ]/g, '')}${item.quantity}`).join(""); // Eliminar caracteres especiales
+    console.log("Generando código de barras para:", barcodeValue);  // Ver en consola el valor que se está pasando
 
-      // Generación del código de barras
-      const barcodeValue = cartItems.map(item => `${item.name}${item.quantity}`).join("");
-      const barcodeCanvas = document.createElement('canvas');
-      JsBarcode(barcodeCanvas, barcodeValue, { format: 'CODE128' });
-      const barcodeImage = barcodeCanvas.toDataURL('image/png');
-      const barcodeImageBytes = await fetch(barcodeImage).then((res) => res.arrayBuffer());
-      const barcodeImageEmbed = await doc.embedPng(barcodeImageBytes);
-      const barcodeDims = barcodeImageEmbed.scale(0.5);
-      page.drawImage(barcodeImageEmbed, { x: 10, y: y, width: barcodeDims.width, height: barcodeDims.height });
-      y -= barcodeDims.height + 20;
+    // Crear canvas para el código de barras
+    const barcodeCanvas = document.createElement('canvas');
+    JsBarcode(barcodeCanvas, barcodeValue, { format: 'CODE128' }); // Usar el string simplificado
+    const barcodeImage = barcodeCanvas.toDataURL('image/png');
 
-      // Guardar y descargar el PDF
-      const pdfBytes = await doc.save();
-      const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(pdfBlob);
-      link.download = 'Comprobante_de_Pedido.pdf';
-      link.click();
+    // Agregar el código de barras al PDF
+    const barcodeImageBytes = await fetch(barcodeImage).then((res) => res.arrayBuffer());
+    const barcodeImageEmbed = await doc.embedPng(barcodeImageBytes);
+    const barcodeDims = barcodeImageEmbed.scale(0.5);
+    page.drawImage(barcodeImageEmbed, { x: 10, y: y, width: barcodeDims.width, height: barcodeDims.height });
+    y -= barcodeDims.height + 20;
 
-    } catch (error) {
-      alert("Hubo un error al finalizar el pedido.");
-      console.error(error);
-    }
+    // Añadir pie de página con la fecha
+    const date = new Date().toLocaleDateString();
+    page.drawText(`Fecha: ${date}`, { x: 10, y, size: 10, color: rgb(0.5, 0.5, 0.5) });
+
+    // Generar el archivo PDF y descargarlo
+    const pdfBytes = await doc.save();
+    const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(pdfBlob);
+    link.download = 'Comprobante_de_Pedido.pdf';
+    link.click();
+  };
+
+  // Función para manejar la eliminación de un producto del carrito
+  const handleRemoveItem = (index) => {
+    const newCartItems = cartItems.filter((item, i) => i !== index);
+    setCartItems(newCartItems);
+    localStorage.setItem('cart', JSON.stringify(newCartItems));
   };
 
   return (
@@ -120,6 +120,7 @@ const Cart = () => {
                       onChange={(e) => handleQuantityChange(index, parseInt(e.target.value))}
                     />
                   </div>
+                  <button className={styles.removeItem} onClick={() => handleRemoveItem(index)}>Eliminar</button>
                 </div>
               </div>
             ))}

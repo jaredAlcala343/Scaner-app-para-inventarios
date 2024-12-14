@@ -14,7 +14,7 @@ export default function Products() {
     try {
       const response = await fetch(`/api/data?code=${productCode}`);
       if (!response.ok) {
-        throw new Error('Product not found');
+        throw new Error('Producto no encontrado');
       }
 
       const data = await response.json();
@@ -25,35 +25,34 @@ export default function Products() {
     }
   };
 
-  const handleAddToCart = () => {
-    if (product) {
-      const storedCart = localStorage.getItem('cart');
-      const cartItems = storedCart ? JSON.parse(storedCart) : [];
+  const handleAddToSales = () => {
+    const storedCart = localStorage.getItem('salesCart');
+    const salesCart = storedCart ? JSON.parse(storedCart) : [];
 
-      const existingItemIndex = cartItems.findIndex((item) => item.code === product.codigoB);
-      if (existingItemIndex !== -1) {
-        cartItems[existingItemIndex].quantity += 1;
-      } else {
-        cartItems.push({
-          name: product.nombre,
-          description: product.descripcion,
-          price: product.precio,
-          quantity: 1,
-          code: product.codigoB,
-          image: product.imagenUrl,
-        });
-      }
+    salesCart.push({
+      name: product.nombre,
+      description: product.descripcion,
+      price: product.precio,
+      quantity: 1,
+      code: product.codigoB,
+      image: product.imagenUrl,
+    });
 
-      localStorage.setItem('cart', JSON.stringify(cartItems));
-      alert('Producto agregado al carrito');
-    }
+    localStorage.setItem('salesCart', JSON.stringify(salesCart));
+    alert('Producto agregado al Punto de Ventas');
+  };
+
+  const handleScanAnother = () => {
+    setProductCode('');
+    setProduct(null);
+    setError('');
   };
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className={styles.container}>
-        <h1 className={styles.title}>ESCANEE O INGRESE EL CÓDIGO DE SU PRODUCTO</h1>
+        <h1 className={styles.title}>Consulta de Productos</h1>
         <form onSubmit={handleSearch} className={styles.searchForm}>
           <label>
             Código del Producto:
@@ -83,7 +82,10 @@ export default function Products() {
               <p><strong>Marca:</strong> {product.marca}</p>
               <p><strong>Código:</strong> {product.codigoB}</p>
             </div>
-            <button onClick={handleAddToCart} className={styles.addToCartButton}>Agregar al Carrito</button>
+            <div className={styles.actions}>
+              <button onClick={handleAddToSales} className={styles.salesButton}>Agregar al Punto de Ventas</button>
+              <button onClick={handleScanAnother} className={styles.scanButton}>Escanear Otro Producto</button>
+            </div>
           </div>
         )}
       </div>

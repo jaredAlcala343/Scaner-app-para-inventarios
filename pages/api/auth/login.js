@@ -37,7 +37,7 @@ export default async function handler(req, res) {
       };
         console.log(userData);
       res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Path=/; Max-Age=3600`);
-      return res.status(200).json({ message: 'Login successful', redirectUrl: '/products', userData });
+      return res.status(200).json({ message: 'Login successful', redirectUrl: '/dashboard', userData });
     } catch (error) {
       console.error('Login error', error);
       return res.status(500).json({ message: 'Internal server error' });
