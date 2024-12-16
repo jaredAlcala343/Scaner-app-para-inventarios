@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { Line, Bar, Doughnut } from 'react-chartjs-2'; // Importar gráficos de Chart.js
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js'; // Asegúrate de importar BarElement
-
+import Navbar from './navbar';
 import { FaHome, FaChartBar, FaBox, FaCogs } from 'react-icons/fa'; 
 import styles from './dashboard.module.css';
 
@@ -75,60 +75,31 @@ export default function Dashboard() {
   return (
     <div className={`${styles.flex} ${styles.hScreen}`}>
       {/* Sidebar */}
-      <aside className={`${styles.sidebar} ${styles.bgWhite}`}>
-        <div className={styles.sidebarContent}>
-          <h2 className={styles.sidebarTitle}>Sidebar</h2>
-          <ul>
-            <li className={styles.sidebarItem}>
-              <FaHome className={styles.icon} />
-            </li>
-            <li className={styles.sidebarItem}>
-              <FaChartBar className={styles.icon} />
-            </li>
-            <li className={styles.sidebarItem}>
-              <FaBox className={styles.icon} />
-            </li>
-            <li className={styles.sidebarItem}>
-              <FaCogs className={styles.icon} />
-            </li>
-          </ul>
-        </div>
-      </aside>
+      
 
       {/* Main Content */}
       <div className={`${styles.flex} ${styles.flexCol} ${styles.flex1}`}>
         {/* Navbar */}
+        <Navbar />
         {/* Aquí importas tu navbar como ya mencionaste */}
         
         {/* Cards */}
         <section className={`${styles.grid} ${styles.gridCols4} ${styles.gap4} ${styles.p4} ${styles.bgGray100}`}>
-          <div
-            className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
-            onClick={() => router.push('/sales')}
-          >
-            <h3 className={`${styles.textLg} ${styles.fontBold}`}>Cotizaciones y Ventas</h3>
-            <button className={`${styles.mt2} ${styles.bgBlue500} ${styles.textWhite} ${styles.px4} ${styles.py2} ${styles.rounded}`}>Ir</button>
+          <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
+            onClick={() => router.push('/sales')}>
+            <h3 className={`${styles.textLg} ${styles.fontBold} ${styles.textCenter}`}>Cotizaciones y Ventas</h3>
           </div>
-          <div
-            className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
-            onClick={() => router.push('/products')}
-          >
-            <h3 className={`${styles.textLg} ${styles.fontBold}`}>Consultas de Productos</h3>
-            <button className={`${styles.mt2} ${styles.bgBlue500} ${styles.textWhite} ${styles.px4} ${styles.py2} ${styles.rounded}`}>Ir</button>
+          <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
+            onClick={() => router.push('/consult')}>
+            <h3 className={`${styles.textLg} ${styles.fontBold} ${styles.textCenter}`}>Consultas de Productos</h3>
           </div>
-          <div
-            className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
-            onClick={() => router.push('/warehouse')}
-          >
-            <h3 className={`${styles.textLg} ${styles.fontBold}`}>Pedidos de Almacén</h3>
-            <button className={`${styles.mt2} ${styles.bgBlue500} ${styles.textWhite} ${styles.px4} ${styles.py2} ${styles.rounded}`}>Ir</button>
+          <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
+            onClick={() => router.push('/products')}>
+            <h3 className={`${styles.textLg} ${styles.fontBold} ${styles.textCenter}`}>Pedidos de Almacén</h3>
           </div>
-          <div
-            className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
-            onClick={() => router.push('/production')}
-          >
-            <h3 className={`${styles.textLg} ${styles.fontBold}`}>Órdenes de Producción</h3>
-            <button className={`${styles.mt2} ${styles.bgBlue500} ${styles.textWhite} ${styles.px4} ${styles.py2} ${styles.rounded}`}>Ir</button>
+          <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
+            onClick={() => router.push('/production')}>
+            <h3 className={`${styles.textLg} ${styles.fontBold} ${styles.textCenter}`}>Órdenes de Producción</h3>
           </div>
         </section>
 
@@ -137,27 +108,27 @@ export default function Dashboard() {
           <h2 className={`${styles.text2Xl} ${styles.fontBold} ${styles.mb4}`}>Estadísticas</h2>
           <div className={`${styles.grid} ${styles.gridCols2} ${styles.gap4}`}>
             <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd}`}>
-              <h3 className={`${styles.fontBold} ${styles.mb2}`}>Tiempo Promedio para Completar Pedidos</h3>
+              <h3 className={`${styles.fontBold} ${styles.mb2} ${styles.textCenter}`}>Tiempo Promedio para Completar Pedidos</h3>
               <Line data={tiempoDeProcesoData} options={{ animation: { duration: 1000 } }} />
             </div>
             <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd}`}>
-              <h3 className={`${styles.fontBold} ${styles.mb2}`}>Stock Disponible</h3>
+              <h3 className={`${styles.fontBold} ${styles.mb2} ${styles.textCenter}`}>Stock Disponible</h3>
               <Doughnut data={stockDisponibleData} options={{ animation: { animateScale: true } }} />
             </div>
             <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd}`}>
-              <h3 className={`${styles.fontBold} ${styles.mb2}`}>Pedidos en Cola</h3>
+              <h3 className={`${styles.fontBold} ${styles.mb2} ${styles.textCenter}`}>Pedidos en Cola</h3>
               <Bar data={pedidosEnColaData} options={{ animation: { duration: 1500 } }} />
             </div>
             <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd}`}>
-              <h3 className={`${styles.fontBold} ${styles.mb2}`}>Metas de Ventas</h3>
+              <h3 className={`${styles.fontBold} ${styles.mb2} ${styles.textCenter}`}>Metas de Ventas</h3>
               <Bar data={metasDeVentasData} options={{ animation: { duration: 1500 } }} />
             </div>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className={`${styles.bgGray800} ${styles.textWhite} ${styles.textCenter} ${styles.p4}`}>
-          <p>© 2024 Dashboard App</p>
+        <footer className={`${styles.fontBold} ${styles.bgGray800} ${styles.textWhite} ${styles.textCenter} ${styles.p4}`}>
+          <p>© 2024 CUBYLAM & CHALET bykzstudio</p>
         </footer>
       </div>
     </div>

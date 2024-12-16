@@ -1,130 +1,164 @@
-/* Estilos para el contenedor principal */
-.container {
-    display: flex;
-    height: 100vh;
-  }
+/* General */
+.flex {
+  display: flex;
+}
+.flexCol {
+  flex-direction: column;
+}
+.flex1 {
+  flex: 1;
+}
+.hScreen {
+  height: 100vh;
+}
+.bgWhite {
+  background-color: #ffffff;
+}
+.bgGray100 {
+  background-color: #f7f7f7;
+}
+.bgGray800 {
+  background-color: #053160;
+}
+.textWhite {
+  color: #ffffff;
+}
+.textCenter {
+  text-align: center;
+}
+.textLg {
+  font-size: 1.125rem;
+}
+.text2Xl {
+  font-size: 1.5rem;
+}
+.fontBold {
+  font-weight: bold;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.mt2 {
+  margin-top: 0.5rem;
+}
+.p4 {
+  padding: 1.1rem;
   
-  .mainContent {
-    flex: 1;
-    background-color: #f7f7f7;
-    padding: 20px;
-    overflow: auto;
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    background-color: #ffffff;
-    width: 60px; /* Estilo contraído */
-    transition: width 0.3s ease;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .sidebarContent {
-    padding: 2px;
-  }
-  
-  .sidebarTitle {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .sidebar ul {
-    list-style-type: none; /* Eliminar los puntos de lista */
-    padding: 0; /* Eliminar el padding predeterminado */
-  }
-  
-  .sidebarItem {
-    margin-bottom: 20px;
-    cursor: pointer;
-  }
-  
-  .icon {
-    font-size: 2rem;
-    color: #053160;
-    transition: color 0.3s ease;
-  }
-  
-  .icon:hover {
-    color: #f9f638;
-  }
-  
-  /* Cards */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .card {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .cardButton {
-    background-color: #053160;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .cardButton:hover {
-    background-color: #f9f638;
-  }
-  
-  /* Estadísticas (Gráficas) */
-  .stats {
-    margin-top: 30px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .statsTitle {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-  
-  .chartContainer {
-    width: 100%;
-    height: 300px; /* Ajusta el tamaño de la gráfica */
-  }
-  
-  /* Footer */
-  .footer {
-    background-color: #053160;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-  }
-  
-  /* Media query para pantallas pequeñas */
-  @media (max-width: 768px) {
-    .cards {
-      grid-template-columns: 1fr 1fr;
-    }
-  
-    .sidebar {
-      width: 60px;
-    }
-  }
-  
+}
+.px4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.py2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.shadowMd {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.roundedMd {
+  border-radius: 0.375rem;
+}
+.cursorPointer {
+  cursor: pointer;
+}
+.hoverBgGray200:hover {
+  background-color: #053160;
+  color: #f9f638;
+}
+.grid {
+  display: grid;
+}
+.gridCols2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.gridCols4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.gap4 {
+  gap: 1rem;
+}
+
+/* Sidebar general */
+.sidebar {
+  height: 197.2vh;
+  width: 100px; /* Ancho por defecto */
+  background-color: #053160;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  transition: width 0.3s ease; /* Transición suave */
+  overflow: hidden;
+}
+
+/* Sidebar colapsada */
+.sidebar.collapsed {
+  width: 60px; /* Ancho reducido cuando está contraída */
+}
+
+/* Título de la Sidebar */
+.sidebarTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .sidebarTitle {
+  display: none; /* Oculta el título en modo colapsado */
+}
+
+/* Ítems de la Sidebar */
+.sidebarItem {
+  list-style: none; /* Elimina los puntos */
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.sidebarItem:hover {
+  background-color: #1d4e89;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.sidebar.collapsed .sidebarItem span {
+  display: none; /* Oculta el texto cuando la sidebar está contraída */
+}
+
+/* Layout general */
+.flex {
+  display: flex;
+}
+
+.flex1 {
+  flex: 1; /* El contenido principal ocupa el resto del espacio */
+}
+
+.flexCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.hScreen {
+  min-height: 100vh; /* Asegura que el layout ocupe toda la altura */
+}
+
+.mainContent {
+  background-color: #f4f4f4; /* Color de fondo */
+  padding: 1rem;
+}
+
+.footer {
+  background-color: #053160;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PDFDocument, rgb } from 'pdf-lib';
 import styles from './Sales.module.css';
 import Navbar from './navbar';
@@ -6,17 +6,71 @@ import Navbar from './navbar';
 export default function Sales() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const inputRef = useRef(null); // Referencia para el input invisible
 
   useEffect(() => {
+    // Cargar carrito del localStorage
     const storedCart = localStorage.getItem('salesCart');
     const cartItems = storedCart ? JSON.parse(storedCart) : [];
     setCart(cartItems);
     calculateTotal(cartItems);
+
+    // Enfocar el input invisible para escanear
+    inputRef.current.focus();
   }, []);
 
+  // Capturar el escaneo del código de barras
+  const handleScan = async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const code = e.target.value.trim();
+
+      if (code) {
+        await fetchProduct(code);
+      }
+      e.target.value = ''; // Limpiar el input después de escanear
+    }
+  };
+
+  // Buscar producto en la base de datos
+  const fetchProduct = async (code) => {
+    try {
+      const response = await fetch(`/api/data?code=${code}`);
+      if (!response.ok) {
+        throw new Error('Producto no encontrado');
+      }
+
+      const product = await response.json();
+      addProductToCart(product);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Agregar producto al carrito
+  const addProductToCart = (product) => {
+    const updatedCart = [...cart];
+    const existingProductIndex = updatedCart.findIndex((item) => item.code === product.codigoB);
+
+    if (existingProductIndex > -1) {
+      updatedCart[existingProductIndex].quantity += 1; // Incrementar cantidad si ya existe
+    } else {
+      updatedCart.push({
+        name: product.nombre,
+        price: product.precio,
+        quantity: 1,
+        code: product.codigoB,
+      });
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem('salesCart', JSON.stringify(updatedCart));
+    calculateTotal(updatedCart);
+  };
+
   const calculateTotal = (cartItems) => {
-    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    setTotal(total);
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    setTotal(subtotal);
   };
 
   const handleQuantityChange = (index, newQuantity) => {
@@ -35,26 +89,23 @@ export default function Sales() {
   };
 
   const handleCompleteOrder = async () => {
-    // Generar PDF del comprobante
+    // Generar PDF
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([600, 800]);
     const { width, height } = page.getSize();
     let y = height - 50;
 
-    // Título del comprobante
     page.drawText('Comprobante de Compra', { x: width / 2 - 120, y, size: 20, color: rgb(0, 0, 0) });
     y -= 30;
 
-    // Detalles de los productos
     cart.forEach((item, index) => {
       page.drawText(
-        `${index + 1}. ${item.name} (${item.code}) - Cantidad: ${item.quantity} - Precio: $${item.price.toFixed(2)}`,
+        `${index + 1}. ${item.name} - Cantidad: ${item.quantity} - Precio: $${item.price.toFixed(2)}`,
         { x: 50, y, size: 12 }
       );
       y -= 20;
     });
 
-    // Total de la compra
     y -= 20;
     page.drawText(`Total (con IVA): $${(total * 1.16).toFixed(2)}`, { x: 50, y, size: 14, color: rgb(0, 0, 0) });
 
@@ -65,7 +116,7 @@ export default function Sales() {
     link.download = 'comprobante_de_compra.pdf';
     link.click();
 
-    // Actualizar inventario en la base de datos
+    // Actualizar inventario
     await Promise.all(
       cart.map((item) =>
         fetch('/api/updateStock', {
@@ -88,6 +139,13 @@ export default function Sales() {
       <Navbar />
       <div className={styles.container}>
         <h1 className={styles.title}>Punto de Ventas</h1>
+        <input
+          ref={inputRef}
+          type="text"
+          onKeyDown={handleScan}
+          className={styles.hiddenInput}
+          autoFocus
+        />
         <div className={styles.cart}>
           {cart.length === 0 ? (
             <p className={styles.emptyCart}>El carrito está vacío.</p>
@@ -97,9 +155,7 @@ export default function Sales() {
                 <div>
                   <h3>{item.name}</h3>
                   <p>Precio: ${item.price.toFixed(2)}</p>
-                  <p>Código: {item.code}</p>
-                  <p>
-                    Cantidad:
+                  <p>Cantidad:
                     <input
                       type="number"
                       min="1"

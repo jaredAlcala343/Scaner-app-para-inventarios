@@ -32,7 +32,7 @@ const Navbar = () => {
         {name ? (
           <>
             <span className={styles.navLink}>Hola, {name}</span>
-            <Link href="/products"> 
+            <Link href="/dashboard"> 
             <p className={styles.cartLink}>
             <FontAwesomeIcon icon={faHomeLg}/>
             </p>
