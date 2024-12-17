@@ -98,7 +98,7 @@ export default function Dashboard() {
             <h3 className={`${styles.textLg} ${styles.fontBold} ${styles.textCenter}`}>Pedidos de Almacén</h3>
           </div>
           <div className={`${styles.bgWhite} ${styles.p4} ${styles.shadowMd} ${styles.roundedMd} ${styles.flexCol} ${styles.justifyBetween} ${styles.cursorPointer} ${styles.hoverBgGray200}`}
-            onClick={() => router.push('/production')}>
+            onClick={() => router.push('/produccion')}>
             <h3 className={`${styles.textLg} ${styles.fontBold} ${styles.textCenter}`}>Órdenes de Producción</h3>
           </div>
         </section>
