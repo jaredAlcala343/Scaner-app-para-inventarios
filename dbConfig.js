@@ -7,7 +7,7 @@ const config = {
     user: process.env.DB_USER,  // Usando la variable de entorno
     password: process.env.DB_PASSWORD,  // Usando la variable de entorno
     server: process.env.DB_SERVER,  // Usando la variable de entorno
-    port: parseInt(process.env.DB_PORT) || 1433,  // Usando la variable de entorno
+    port: parseInt(process.env.DB_PORT),  // Usando la variable de entorno
     database: process.env.DB_DATABASE,  // Usando la variable de entorno
     options: {
         encrypt: false,  // Cambia a true si usas una conexión cifrada

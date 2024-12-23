@@ -69,18 +69,17 @@ export default function Products() {
         {product && (
           <div className={styles.productInfo}>
             <div className={styles.productHeader}>
-              <h2>{product.nombre}</h2>
+              <h2>{product.CNOMBREPRODUCTO}</h2>
               {product.imagenUrl && (
                 <img src={product.imagenUrl} alt={product.nombre} className={styles.productImage} />
               )}
             </div>
             <div className={styles.productDetails}>
-              <p><strong>Precio:</strong> ${product.precio}</p>
-              <p><strong>Descripción:</strong> {product.descripcion}</p>
-              <p><strong>Categoría:</strong> {product.categoria}</p>
-              <p><strong>Stock:</strong> {product.stock}</p>
-              <p><strong>Marca:</strong> {product.marca}</p>
-              <p><strong>Código:</strong> {product.codigoB}</p>
+              <p><strong>Precio:</strong> ${product.CPRECIO1}</p>
+              <p><strong>Descripción:</strong> {product.CNOMBREPRODUCTO}</p>
+              <p><strong>Categoría:</strong> {product.CTIPOPRODUCTO}</p>
+              <p><strong>Stock:</strong> {product.CCONTROLEXISTENCIA}</p>
+              <p><strong>Código:</strong> {product.CCODIGOPRODUCTO}</p>
             </div>
             
           </div>

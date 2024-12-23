@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       const pool = await connectToDatabase();
       const result = await pool.request()
         .input('username', sql.VarChar, username)
-        .query('SELECT * FROM dbo.Usuarios WHERE NumeroEmpleado = @username');
+        .query('SELECT * FROM dbo.UsuariosLocal WHERE Nombre = @username');
 
       if (result.recordset.length === 0) {
         return res.status(401).json({ message: 'Invalid username or password' });
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
       const user = result.recordset[0];
 
-      const passwordIsValid = user.Contraseña === password;
+      const passwordIsValid = user.Clave === password;
 
       if (!passwordIsValid) {
         return res.status(401).json({ message: 'Invalid username or password' });

@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     const result = await pool.request()
       .input('productCode', sql.VarChar, code)
-      .query('SELECT * FROM dbo.Productos WHERE codigoB = @productCode');
+      .query("SELECT CCODIGOPRODUCTO, CNOMBREPRODUCTO, CDESCRIPCIONPRODUCTO, CCONTROLEXISTENCIA, CTIPOPRODUCTO, CPRECIO1, CPRECIO2, CPRECIO3, CPRECIO4, CPRECIO5, CPRECIO6, CPRECIO7, CPRECIO8, CPRECIO9, CPRECIO10 FROM dbo.admProductos WHERE CCODALTERN = @productCode  ");
 
     console.log('Query result:', result); // Registro del resultado de la consulta
 
